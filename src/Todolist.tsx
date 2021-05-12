@@ -16,11 +16,12 @@ type PropsType = {
 
 export function TodoList(props: PropsType) {
   const Todolist = props.tasks.map(t => {
+    const removeOnClickTask = () => props.removeTask(t.id)
     return (
       <li>
         <input type="checkbox" checked={t.isDone} />
         <span>{t.title}</span>
-        <button onClick={() => props.removeTask(t.id)}>X</button>
+        <button onClick={removeOnClickTask}>X</button>
       </li >
     )
   })
