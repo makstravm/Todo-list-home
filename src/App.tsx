@@ -14,7 +14,8 @@ function App() {
       { id: v1(), title: 'React', isDone: false }
     ]
   )
-  const [filter, setFilter] = useState('all')
+
+  const [filter, setFilter] = useState<FilterTaskType>('all')
 
   function removeTask(taskId: string) {
     const resultTask = task.filter(t => t.id !== taskId)
@@ -47,6 +48,14 @@ function App() {
     setTask(newAddTask);
   }
 
+  function changeStatus(taskId: string, isDone: boolean) {
+    let newTask = task.find(t => t.id === taskId)
+    if (newTask) {
+      newTask.isDone = isDone
+    }
+    setTask([...task])
+  }
+
   return (
     <div className="App">
       <TodoList
@@ -55,6 +64,8 @@ function App() {
         removeTask={removeTask}
         changeFilter={changeFilter}
         addTask={addTask}
+        changeTaskStatus={changeStatus}
+        filter={filter}
       />
     </div>
   );
