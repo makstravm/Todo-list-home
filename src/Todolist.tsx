@@ -1,10 +1,14 @@
+import IconButton from '@material-ui/core/IconButton';
 import { title } from 'process';
 import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { idText } from 'typescript';
 import { AddItemForm } from './AddItemForm';
 import { FilterTaskType } from './App';
 import s from './App.module.css'
 import { EditTitleTask } from './EditTitleTask';
+import { Button, Checkbox } from '@material-ui/core';
+import { Favorite, FavoriteBorder } from '@material-ui/icons';
 
 export type TaskType = {
   id: string
@@ -36,8 +40,8 @@ export function TodoList(props: PropsType) {
     const addNewEditTitle = (title: string) => props.addEditTitle(t.id, title, props.id)
     return (
       <li key={t.id} >
-        <input
-          type="checkbox"
+        <Checkbox  icon={<FavoriteBorder />} 
+          checkedIcon={<Favorite />}
           checked={t.isDone}
           onChange={onChangeHandler}
         />
@@ -45,7 +49,11 @@ export function TodoList(props: PropsType) {
           <EditTitleTask title={t.title}
             addEditTitle={addNewEditTitle} />
         </span>
-        <button onClick={removeOnClickTask}>X</button>
+        <IconButton
+          aria-label="delete"
+          onClick={removeOnClickTask}>
+          <DeleteIcon />
+        </IconButton>
       </li >
     )
   })
@@ -54,37 +62,41 @@ export function TodoList(props: PropsType) {
   const filterTodoListActive = () => props.changeFilter('active', props.id)
   const filterTodoListCompleted = () => props.changeFilter('completed', props.id)
 
-  const filterActiveClassAll = s.btn + ' ' + (props.filter === 'all' ? s.active : '')
-  const filterActiveClassActive = s.btn + ' ' + (props.filter === 'active' ? s.active : '')
-  const filterActiveClassCompleted = s.btn + ' ' + (props.filter === 'completed' ? s.active : '')
+  const filterActiveClassAll = props.filter === 'all' ? 'contained' : 'text'
+  const filterActiveClassActive = props.filter === 'active' ? 'contained' : 'text'
+  const filterActiveClassCompleted = props.filter === 'completed' ? 'contained' : 'text'
   const changeTodoListTitle = (title: string) => props.addNewEditTitleTodoList(title, props.id)
   return (
     <div>
       <h3>  <EditTitleTask title={props.title}
         addEditTitle={changeTodoListTitle} />
       </h3>
-      <button onClick={() => props.removeTodoList(props.id)}>x</button>
+      <IconButton
+        aria-label="delete"
+        onClick={() => props.removeTodoList(props.id)}>
+        <DeleteIcon />
+      </IconButton>
       <AddItemForm
         addItem={addNewTitle} />
       <ul>
         {Todolist}
       </ul>
       <div>
-        <button
+        <Button
           onClick={filterTodoListAll}
-          className={filterActiveClassAll}
+          variant={filterActiveClassAll}
         >All
-        </button>
-        <button
+        </Button>
+        <Button color={'primary'}
           onClick={filterTodoListActive}
-          className={filterActiveClassActive}
+          variant={filterActiveClassActive}
         >Active
-        </button>
-        <button
+        </Button>
+        <Button color={'secondary'}
           onClick={filterTodoListCompleted}
-          className={filterActiveClassCompleted}
+          variant={filterActiveClassCompleted}
         >Completed
-        </button>
+        </Button>
       </div>
     </div>
   )

@@ -1,3 +1,4 @@
+import { TextField } from '@material-ui/core';
 import { title } from 'process';
 import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
 import s from './App.module.css'
@@ -27,7 +28,7 @@ export function EditTitleTask(props: EditTitleTaskPorpsType) {
     if (e.charCode === 13) {
       if (newTaskTitle.trim() !== '') {
         props.addEditTitle(newTaskTitle.trim());
-    
+
         setEditMode(false)
       } else {
         setError('Field is required')
@@ -39,16 +40,17 @@ export function EditTitleTask(props: EditTitleTaskPorpsType) {
   const activeteViewMode = () => {
     if (newTaskTitle.trim() !== '') {
       props.addEditTitle(newTaskTitle.trim());
-       setEditMode(false)
+      setEditMode(false)
     } else {
       setError('Field is required')
     }
-   
+
   }
   return (
     <span onDoubleClick={editModetitle}>
-      {  editMode ?
-        <input value={newTaskTitle} autoFocus
+      {editMode ?
+        <TextField
+          value={newTaskTitle} autoFocus
           onChange={onChangeTask}
           onKeyPress={onKeyPressAddTask}
           onBlur={activeteViewMode}
