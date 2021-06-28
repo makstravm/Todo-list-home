@@ -1,4 +1,6 @@
+import { Button, IconButton, TextField } from '@material-ui/core';
 import { title } from 'process';
+import QueueIcon from '@material-ui/icons/Queue';
 import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
 import s from './App.module.css'
 
@@ -28,13 +30,14 @@ export function AddItemForm(props: AddItemFormPorpsType) {
   }
   return (
     <div>
-      <input value={newTaskTitle}
+      <TextField variant="outlined" label="type value"
+        value={newTaskTitle}
         onChange={onChangeTask}
         onKeyPress={onKeyPressAddTask}
-        className={s.input + ' ' + (error ? s.error : '')}
+        error={!!error}
+        helperText={error}
       />
-      <button onClick={addTaskOnClick}>+</button>
-      {error && <div className={s.errorMessege}>{error}</div>}
+      <IconButton onClick={addTaskOnClick}><QueueIcon  color="primary"/></IconButton>
     </div>
   )
 }

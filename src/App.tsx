@@ -1,3 +1,5 @@
+import { AppBar, Container, Grid, IconButton, Paper, Toolbar, Typography } from '@material-ui/core';
+import { Menu } from '@material-ui/icons';
 import React, { useState } from 'react';
 import { v1 } from 'uuid';
 import { AddItemForm } from './AddItemForm';
@@ -57,7 +59,6 @@ function App() {
   }
 
   function removeTask(taskId: string, todoListId: string) {
-    debugger
     const removeTasks = tasks[todoListId]
     let resultTask = removeTasks.filter(t => t.id !== taskId)
     tasks[todoListId] = resultTask
@@ -133,26 +134,47 @@ function App() {
         return tasks[tl.id]
       }
     }
-    return < TodoList
-      key={tl.id}
-      id={tl.id}
-      title={tl.title}
-      tasks={filterTaskForTodolist()}
-      removeTask={removeTask}
-      changeFilter={changeFilter}
-      addTask={addTask}
-      changeTaskStatus={changeStatus}
-      filter={tl.filter}
-      removeTodoList={removeTodoList}
-      addEditTitle={addEditTitle}
-      addNewEditTitleTodoList={addNewEditTitleTodoList}
-    />
+    return <Grid item>
+      <Paper style={{padding: '10px'}}>
+        <TodoList
+          key={tl.id}
+          id={tl.id}
+          title={tl.title}
+          tasks={filterTaskForTodolist()}
+          removeTask={removeTask}
+          changeFilter={changeFilter}
+          addTask={addTask}
+          changeTaskStatus={changeStatus}
+          filter={tl.filter}
+          removeTodoList={removeTodoList}
+          addEditTitle={addEditTitle}
+          addNewEditTitleTodoList={addNewEditTitleTodoList}
+        />
+      </Paper>
+    </Grid >
   })
   return (
     <div className="App">
-      <AddItemForm
-        addItem={addTodoList} />
-      {todoListReander}
+
+      <AppBar position={'static'}>
+        <Toolbar >
+          <IconButton edge={'start'} color={'inherit'} arial-label={'menu'}>
+            <Menu />
+          </IconButton>
+          <Typography variant={'h6'}>
+            News
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <Container fixed>
+        <Grid container>
+          <AddItemForm
+            addItem={addTodoList} />
+        </Grid>
+        <Grid container spacing={3}>
+          {todoListReander}
+        </Grid>
+      </Container>
     </div>
   );
 }
